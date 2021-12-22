@@ -26,8 +26,10 @@ def create_app(config_class=Config):
     from flask_webapp.users.routes import users
     from flask_webapp.posts.routes import posts
     from flask_webapp.main.routes import main
+    from flask_webapp.errors.handlers import errors
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
-
+    app.register_blueprint(errors)
+    
     return app 
