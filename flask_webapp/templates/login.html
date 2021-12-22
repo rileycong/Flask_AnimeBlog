@@ -39,10 +39,10 @@
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
-            </div>
-            <small class="text-muted ml-2">
-                    <a href="#">Too pathetic you can't even remember?</a>
-            </small>
+                <small class="text-muted ml-2">
+                    <a href="{{ url_for('reset_request') }}">Too pathetic you can't even remember?</a>
+                </small>
+            </div>  
         </form>
     </div>
     <div class="border-top pt-3">
