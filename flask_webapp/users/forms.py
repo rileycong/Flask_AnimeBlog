@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, email_validator, ValidationError
 from flask_webapp.models import User
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', 
@@ -23,18 +24,20 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('Even your email is taken. Pathetic you.')
 
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', 
                     validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     
-    picture = FileField('Update Your Anime Ava', validators=[FileAllowed(['jpg', 'png', 'gif'])])
+    picture = FileField('Update Your Anime Ava', validators=[FileAllowed(['jpg', 'png', 'jfif', 'gif'])])
     submit = SubmitField('ReLife')
     
     def validate_username(self, username):
@@ -49,10 +52,6 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('Be creative homie')
 
-class PostForm(FlaskForm):
-    title = StringField('Tilte', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Okay? Post')
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -61,6 +60,7 @@ class RequestResetForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user is None:
                 raise ValidationError('Bro you have not even registered')
+
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
